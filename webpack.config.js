@@ -2,18 +2,19 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = {
   entry: {
     app: {
       import: './src/index.js',
-      dependOn: 'shared',
+      // dependOn: 'shared',
     },
     print: {
       import: './src/print.js',
-      dependOn: 'shared',
+      // dependOn: 'shared',
     },
-    shared: 'lodash',
+    // shared: 'lodash',
   },
   devtool: 'inline-source-map',
   devServer: {
@@ -38,7 +39,13 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'Output Management',
     }),
+    new BundleAnalyzerPlugin(),
   ],
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
+  },
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
